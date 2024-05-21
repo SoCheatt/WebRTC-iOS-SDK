@@ -1184,6 +1184,8 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
         for (streamId, webrtcClient) in self.webRTCClientMap {
             webrtcClient.disconnect()
         }
+
+        pingTimer?.invalidate()
              
         self.webRTCClientMap.removeAll();
         self.webSocket?.disconnect();
@@ -1283,9 +1285,10 @@ extension AntMediaClient: WebSocketDelegate {
             self.delegate?.clientDidConnect(self)
             
             //too keep the connetion alive send ping command for every 10 seconds
-            pingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { pingTimer in
-                let jsonString = self.getPingMessage().json
-                self.webSocket?.write(string: jsonString)
+            pingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] pingTimer in
+                if let jsonString = self?.getPingMessage().json {
+                    self?.webSocket?.write(string: jsonString)
+                }
             }
             break;
         case .disconnected(let reason, let code):
