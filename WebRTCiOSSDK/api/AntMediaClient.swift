@@ -715,7 +715,7 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
         //     self.sendNotification(eventType: eventType, streamId:streamId);
         // }
 
-        sself.endNotification(eventType: eventType, streamId: getPublisherStreamId())
+        self.sendNotification(eventType: eventType, streamId: getPublisherStreamId())
     }
     
     open func setVideoTrack(enableTrack: Bool)
