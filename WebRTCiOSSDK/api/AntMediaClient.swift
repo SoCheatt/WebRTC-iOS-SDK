@@ -711,11 +711,11 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
         if (enabled) {
             eventType = EVENT_TYPE_CAM_TURNED_ON;
         }
-        // if let streamId = self.publisherStreamId {
-        //     self.sendNotification(eventType: eventType, streamId:streamId);
-        // }
+        if let streamId = self.publisherStreamId {
+            self.sendNotification(eventType: eventType, streamId:streamId);
+        }
 
-        self.sendNotification(eventType: eventType, streamId: getPublisherStreamId())
+        // self.sendNotification(eventType: eventType, streamId: getPublisherStreamId())
     }
     
     open func setVideoTrack(enableTrack: Bool)
