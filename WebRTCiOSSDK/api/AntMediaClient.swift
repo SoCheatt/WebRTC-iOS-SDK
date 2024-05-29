@@ -895,6 +895,7 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
                     )
                     {
                         //clean the connection
+                        self.leave(streamId: streamId)
                         self.webRTCClientMap.removeValue(forKey: streamId)?.disconnect()
                         AntMediaClient.printf("Reconnecting to join the stream:\(streamId) because ice connection state is not disconnected");
                         self.join(streamId:streamId)

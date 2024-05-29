@@ -1252,8 +1252,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/daltoniam/Starscream";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
+				kind = exactVersion;
+				version = 4.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
