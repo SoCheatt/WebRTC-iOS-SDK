@@ -1255,7 +1255,7 @@ extension AntMediaClient: WebRTCClientDelegate {
         if let eventType = json?[EVENT_TYPE] {
             //event happened
             if let incomingStreamId = json?[STREAM_ID] {
-                self.delegate?.eventHappened(streamId:incomingStreamId as! String , eventType:eventType as! String);
+                self.delegate?.eventHappened(streamId:incomingStreamId as! String , eventType:eventType as! String, data: json ?? [:]);
             }
             else {
                 AntMediaClient.printf("Incoming message does not have streamId:\(json)")
@@ -1269,15 +1269,12 @@ extension AntMediaClient: WebRTCClientDelegate {
 }
 
 extension AntMediaClient: WebSocketDelegate {
-   
-    
-    
     
     public func getPingMessage() -> [String: String] {
         return [COMMAND: "ping"]
     }
     
-    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
+    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocket) {
         switch event {
         case .connected(let headers):
             isWebSocketConnected = true;
@@ -1312,7 +1309,7 @@ extension AntMediaClient: WebSocketDelegate {
             break
         case .pong(_):
             break
-        case .viabilityChanged(_):
+        case .viablityChanged(_):
             break
         case .reconnectSuggested(_):
             break

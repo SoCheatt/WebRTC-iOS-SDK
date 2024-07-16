@@ -120,7 +120,7 @@ public protocol AntMediaClientDelegate: AnyObject {
      - streamId: The id of the stream that the event happened
      - evenType: The type of the event
      */
-    func eventHappened(streamId:String, eventType:String);
+    func eventHappened(streamId:String, eventType:String, data: [String: Any]);
     
     /**
      It's called when a new track is added to the stream. It works both on multirack streaming and conferencing
@@ -161,7 +161,7 @@ public extension AntMediaClientDelegate {
         AntMediaClient.printf("Websocket is connected for \(client.getStreamId())")
     }
         
-    func eventHappened(streamId: String, eventType: String) {
+    func eventHappened(streamId: String, eventType: String, data: [String: Any]) {
         AntMediaClient.printf("Event: \(eventType) happened in stream: \(streamId) ")
     }
     
