@@ -1274,7 +1274,7 @@ extension AntMediaClient: WebSocketDelegate {
         return [COMMAND: "ping"]
     }
     
-    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocket) {
+    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
         switch event {
         case .connected(let headers):
             isWebSocketConnected = true;
@@ -1309,7 +1309,7 @@ extension AntMediaClient: WebSocketDelegate {
             break
         case .pong(_):
             break
-        case .viablityChanged(_):
+        case .viabilityChanged(_):
             break
         case .reconnectSuggested(_):
             break
