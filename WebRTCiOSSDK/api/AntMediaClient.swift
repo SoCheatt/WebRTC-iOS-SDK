@@ -528,6 +528,13 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
     open func switchCamera() {
         self.webRTCClientMap[(self.publisherStreamId ?? (self.p2pStreamId)) ?? ""]?.switchCamera()
     }
+    
+    open func switchScreenCast(_ screenCast: Bool) {
+        setUseExternalCameraSource(useExternalCameraSource: screenCast)
+        setExternalVideoCapture(externalVideoCapture: screenCast)
+        
+        self.webRTCClientMap[(self.publisherStreamId ?? (self.p2pStreamId)) ?? ""]?.switchToScreencast(screenCast)
+    }
 
     /*
      Send data through WebRTC Data channel.

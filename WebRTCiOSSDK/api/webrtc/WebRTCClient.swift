@@ -463,6 +463,29 @@ class WebRTCClient: NSObject {
         startCapture()
     }
     
+    public func switchToScreencast(_ screenCast: Bool) {
+        useExternalCameraSource = screenCast
+        externalVideoCapture = screenCast
+        
+        if videoCapturer is RTCCameraVideoCapturer {
+            (videoCapturer as? RTCCameraVideoCapturer)?.stopCapture()
+        } else if videoCapturer is RTCCustomFrameCapturer {
+            (videoCapturer as? RTCCustomFrameCapturer)?.stopCapture()
+        }
+        
+        if let videoSender {
+            videoSender.track = nil
+        }
+        
+        localVideoTrack = createVideoTrack()
+        videoSender?.track = localVideoTrack
+        
+        if let localVideoView {
+            localVideoTrack.add(localVideoView)
+            localVideoTrack.isEnabled = true
+        }
+    }
+    
     public func deliverExternalAudio(sampleBuffer: CMSampleBuffer)
     {
         self.audioDeviceModule?.deliverRecordedData(sampleBuffer)
