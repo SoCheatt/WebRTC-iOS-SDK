@@ -693,12 +693,12 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
     }
     
     func sendVideoTrackStatusNotification(enabled:Bool) {
-        var eventType = EVENT_TYPE_CAM_TURNED_OFF;
-        if (enabled) {
-            eventType = EVENT_TYPE_CAM_TURNED_ON;
-        }
-        if let streamId = self.publisherStreamId {
-            self.sendNotification(eventType: eventType, streamId:streamId);
+        var eventType = enabled ? EVENT_TYPE_CAM_TURNED_ON : EVENT_TYPE_CAM_TURNED_OFF
+        
+        if let publisherStreamId {
+            sendNotification(eventType: eventType, streamId: publisherStreamId)
+        } else if let p2pStreamId {
+            sendNotification(eventType: eventType, streamId: p2pStreamId)
         }
     }
     
