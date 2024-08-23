@@ -482,7 +482,7 @@ class WebRTCClient: NSObject {
         
         if let localVideoView {
             localVideoTrack.add(localVideoView)
-            localVideoTrack.isEnabled = true
+//            localVideoTrack.isEnabled = true
         }
     }
     

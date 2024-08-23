@@ -685,21 +685,18 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
     }
     
     open func toggleVideo() {
-        self.webRTCClientMap[getPublisherStreamId()]?.toggleVideoEnabled()
+        webRTCClientMap[getPublisherStreamId()]?.toggleVideoEnabled()
         
-        if let videoEnabled = self.webRTCClientMap[self.publisherStreamId ?? (self.p2pStreamId ?? "")]?.isVideoEnabled() {
-            self.sendVideoTrackStatusNotification(enabled: videoEnabled)
+        if let videoEnabled = webRTCClientMap[getPublisherStreamId()]?.isVideoEnabled() {
+            sendVideoTrackStatusNotification(enabled: videoEnabled)
         }
     }
     
     func sendVideoTrackStatusNotification(enabled:Bool) {
-        var eventType = enabled ? EVENT_TYPE_CAM_TURNED_ON : EVENT_TYPE_CAM_TURNED_OFF
+        let eventType = enabled ? EVENT_TYPE_CAM_TURNED_ON : EVENT_TYPE_CAM_TURNED_OFF
+        let id = getPublisherStreamId()
         
-        if let publisherStreamId {
-            sendNotification(eventType: eventType, streamId: publisherStreamId)
-        } else if let p2pStreamId {
-            sendNotification(eventType: eventType, streamId: p2pStreamId)
-        }
+        sendNotification(eventType: eventType, streamId: id)
     }
     
     open func setVideoTrack(enableTrack: Bool)
