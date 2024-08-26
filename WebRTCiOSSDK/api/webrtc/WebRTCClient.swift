@@ -333,14 +333,14 @@ class WebRTCClient: NSObject {
     
     
     private func startCapture() -> Bool {
-        if let videoCapturer = videoCapturer as? RTCFileVideoCapturer {
-            try? AVAudioSession.sharedInstance().setActive(true)
-            videoCapturer.startCapturing(fromFileNamed: "FileCapture.mp4") { error in
-                print(error.localizedDescription)
-            }
-            
-            return true
-        }
+//        if let videoCapturer = videoCapturer as? RTCFileVideoCapturer {
+//            try? AVAudioSession.sharedInstance().setActive(true)
+//            videoCapturer.startCapturing(fromFileNamed: "FileCapture.mp4") { error in
+//                print(error.localizedDescription)
+//            }
+//            
+//            return true
+//        }
         
         let camera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == self.cameraPosition })
         
