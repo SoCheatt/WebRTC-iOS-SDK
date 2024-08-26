@@ -333,8 +333,7 @@ class WebRTCClient: NSObject {
     
     
     private func startCapture() -> Bool {
-        
-         let camera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == self.cameraPosition })
+        let camera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == self.cameraPosition })
         
         if (camera != nil) {
             let supportedFormats = RTCCameraVideoCapturer.supportedFormats(for: camera!)
@@ -360,7 +359,7 @@ class WebRTCClient: NSObject {
                 let dimension = CMVideoFormatDescriptionGetDimensions(selectedFormat!.formatDescription)
                 
                 AntMediaClient.printf("Camera resolution: " + String(dimension.width) + "x" + String(dimension.height)
-                    + " fps: " + String(fps))
+                                      + " fps: " + String(fps))
                 
                 let cameraVideoCapturer = self.videoCapturer as? RTCCameraVideoCapturer;
                 
@@ -377,7 +376,7 @@ class WebRTCClient: NSObject {
         else {
             AntMediaClient.printf("Not Camera Found")
         }
-    
+        
         return false;
         
     }
@@ -397,15 +396,17 @@ class WebRTCClient: NSObject {
         }
         else {
             let videoSource = WebRTCClient.factory.videoSource()
-            #if TARGET_OS_SIMULATOR
+            #if targetEnvironment(simulator)
             self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
             #else
             self.videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
+            #endif
+            
             let captureStarted = startCapture()
             if (!captureStarted) {
                 return nil;
             }
-            #endif
+            
             let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
             return videoTrack
         }
