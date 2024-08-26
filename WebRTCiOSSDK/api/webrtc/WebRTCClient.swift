@@ -417,6 +417,7 @@ class WebRTCClient: NSObject {
             }
             
             let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
+            videoTrack.isEnabled = isVideoEnabled()
             return videoTrack
         }
     }
