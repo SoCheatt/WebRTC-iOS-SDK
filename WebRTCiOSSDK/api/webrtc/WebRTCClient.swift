@@ -396,25 +396,24 @@ class WebRTCClient: NSObject {
         {
             //try with screencast video source
             let videoSource = WebRTCClient.factory.videoSource(forScreenCast: true)
-            self.videoCapturer = RTCCustomFrameCapturer.init(delegate: videoSource, height: targetHeight, externalCapture: externalVideoCapture, videoEnabled: videoEnabled, audioEnabled: externalAudio, fps:self.cameraSourceFPS);
+            videoCapturer = RTCCustomFrameCapturer.init(delegate: videoSource, height: targetHeight, externalCapture: externalVideoCapture, videoEnabled: videoEnabled, audioEnabled: externalAudio, fps:self.cameraSourceFPS);
             
-            (self.videoCapturer as? RTCCustomFrameCapturer)?.setWebRTCClient(webRTCClient: self);
-            (self.videoCapturer as? RTCCustomFrameCapturer)?.startCapture()
+            (videoCapturer as? RTCCustomFrameCapturer)?.setWebRTCClient(webRTCClient: self)
+            (videoCapturer as? RTCCustomFrameCapturer)?.startCapture()
             let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
             return videoTrack
         }
         else {
             let videoSource = WebRTCClient.factory.videoSource()
             #if targetEnvironment(simulator)
-            self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
+            videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
             #else
-            self.videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
-            #endif
-            
+            videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
             let captureStarted = startCapture()
             if (!captureStarted) {
                 return nil;
             }
+            #endif
             
             let videoTrack = WebRTCClient.factory.videoTrack(with: videoSource, trackId: "video0")
             videoTrack.isEnabled = isVideoEnabled()
@@ -427,8 +426,8 @@ class WebRTCClient: NSObject {
         
         
         AntMediaClient.printf("Add local media streams")
-        if (self.videoEnabled)
-        {
+//        if (self.videoEnabled)
+//        {
             self.localVideoTrack = createVideoTrack();
 
             self.videoSender = self.peerConnection?.add(self.localVideoTrack,  streamIds: [LOCAL_MEDIA_STREAM_ID])
@@ -441,7 +440,7 @@ class WebRTCClient: NSObject {
             else {
                 AntMediaClient.printf("DegradationPreference cannot be set");
             }
-        }
+//        }
             
         let audioSource = WebRTCClient.factory.audioSource(with: Config.createTestConstraints())
         self.localAudioTrack = WebRTCClient.factory.audioTrack(with: audioSource, trackId: AUDIO_TRACK_ID)
