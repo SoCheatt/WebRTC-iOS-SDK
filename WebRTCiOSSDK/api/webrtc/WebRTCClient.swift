@@ -428,6 +428,8 @@ class WebRTCClient: NSObject {
         AntMediaClient.printf("Add local media streams")
 //        if (self.videoEnabled)
 //        {
+        #if targetEnvironment(simulator)
+        #else
             self.localVideoTrack = createVideoTrack();
 
             self.videoSender = self.peerConnection?.add(self.localVideoTrack,  streamIds: [LOCAL_MEDIA_STREAM_ID])
@@ -440,6 +442,7 @@ class WebRTCClient: NSObject {
             else {
                 AntMediaClient.printf("DegradationPreference cannot be set");
             }
+        #endif
 //        }
             
         let audioSource = WebRTCClient.factory.audioSource(with: Config.createTestConstraints())
@@ -541,7 +544,6 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
         //AntMediaClient.printf("---> StateChanged:\(stateChanged.rawValue)")
     }
-    
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd rtpReceiver: RTCRtpReceiver, streams mediaStreams: [RTCMediaStream]) {
         

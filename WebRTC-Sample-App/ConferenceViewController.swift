@@ -51,6 +51,13 @@ open class ConferenceViewController: UIViewController ,  AVCaptureVideoDataOutpu
         
         //this publishes stream to the room
         self.publisherStreamId = generateRandomAlphanumericString(length: 10);
+        
+        #if targetEnvironment(simulator)
+        conferenceClient?.setVideoEnable(enable: false)
+        #else
+        conferenceClient?.setVideoEnable(enable: true)
+        #endif
+        
         self.conferenceClient?.publish(streamId: self.publisherStreamId, token: "", mainTrackId: roomId);
         
         //this plays the streams in the room
@@ -102,7 +109,7 @@ extension ConferenceViewController: AntMediaClientDelegate
     
     public func trackAdded(track: RTCMediaStreamTrack, stream: [RTCMediaStream]) {
                 
-        AntMediaClient.printf("Track is added with id:\(track.trackId)")
+        AntMediaClient.printf("Track is added with id:\(track.trackId), streamID: \(stream.first?.streamId) ")
         if let videoTrack = track as? RTCVideoTrack
         {
             remoteViewTrackMap.append(videoTrack);
